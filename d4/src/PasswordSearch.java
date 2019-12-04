@@ -1,20 +1,20 @@
+import java.util.stream.IntStream;
 
 public class PasswordSearch {
     private static final int MIN_VALUE = 372037;
     private static final int MAX_VALUE = 905157;
 
 
-    public int getCombinations() {
-        int combinations = 0;
-        for (int i = MIN_VALUE; i <= MAX_VALUE; i++) {
-            String password = Integer.toString(i);
-            if (checkDuplicates(password) && checkOrder(password)) {
-                combinations++;
-                System.out.println(password);
-            }
+    public long getCombinations() {
+        return IntStream.rangeClosed(MIN_VALUE, MAX_VALUE)
+                .boxed()
+                .filter(this::checkPassword)
+                .count();
+    }
 
-        }
-        return combinations;
+    private boolean checkPassword(int password) {
+        String pass = Integer.toString(password);
+        return checkOrder(pass) && checkDuplicates(pass);
     }
 
     private boolean checkOrder(String password) {
